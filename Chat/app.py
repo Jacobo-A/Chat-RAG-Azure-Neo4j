@@ -13,8 +13,3 @@ chat_test.start_conversation(session_id="ejemplo0123")
 
 # Se obtiene el historial de la conversacion
 chat_test.get_chat_history(session_id="ejemplo0123") 
-
-
-# import llm
-
-# llm.get_embeddings()
