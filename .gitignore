@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 llm-knowledge-graph/
 .env
+neo4j/
