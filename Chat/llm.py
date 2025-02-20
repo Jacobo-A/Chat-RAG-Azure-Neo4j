@@ -1,5 +1,6 @@
 from langchain_openai import AzureChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_experimental.graph_transformers import LLMGraphTransformer
 import torch
 from dotenv import load_dotenv
 import os
@@ -23,4 +24,9 @@ def get_embeddings():
     return HuggingFaceEmbeddings(
         model_name='sentence-transformers/all-mpnet-base-v2',
         model_kwargs={"device": device}  # Usa GPU si está disponible
+    )
+
+def get_doc_transformer():
+    return LLMGraphTransformer(
+        llm=get_chat_llm()
     )
