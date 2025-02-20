@@ -4,3 +4,4 @@ __pycache__/
 llm-knowledge-graph/
 .env
 neo4j/
+docker-compose.yml
