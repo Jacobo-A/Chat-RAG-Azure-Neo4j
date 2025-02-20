@@ -4,6 +4,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_neo4j import Neo4jChatMessageHistory
 from llm import get_chat_llm
 from neo4jDb import get_graph_db, get_driver
+from query import QueryProcessor
 
 
 class Chat:
@@ -15,6 +16,7 @@ class Chat:
         self.database = database
         self.graph_db = get_graph_db(database=self.database)
         self.chat_llm = get_chat_llm()
+        self.query = QueryProcessor()
 
         # Prompt default para el chat
         self.prompt = ChatPromptTemplate.from_messages(
@@ -50,14 +52,18 @@ class Chat:
 
         while (question  := input("> ")) != "exit":
             response = self.chat_with_message_history.invoke(
-                {
-                    "context": "Usar question para genenar el contexto usando knowledge graph.", 
+                {   
+                    # se extrae el contexto.
+                    "context": self.query.get_context(question), 
                     "question": question },
                 config={
                     "configurable": {"session_id": session_id}
                 },
             )
             print(response)
+
+        # Cerrar la conexión a la base de datos
+        self.query.close()
 
 
     def get_chat_history(self, session_id=None):
